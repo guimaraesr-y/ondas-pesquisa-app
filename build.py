@@ -37,7 +37,12 @@ def build_executable():
         "--hidden-import=PyQt6.QtCore",
         "--hidden-import=PyQt6.QtGui",
         "--hidden-import=PyQt6.QtWidgets",
-        "--hidden-import=qt_material"
+        "--hidden-import=qt_material",
+        # Add project modules
+        "--hidden-import=models.sheet",
+        "--hidden-import=services.api_service",
+        "--hidden-import=views.sheet_table",
+        "--hidden-import=views.results_window"
     ]
 
     # Only add icon if it exists and is valid
