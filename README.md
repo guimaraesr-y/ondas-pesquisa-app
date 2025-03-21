@@ -13,6 +13,7 @@ A beautiful and modern desktop application built with PyQt6 and Material Design.
 
 1. Make sure you have Python 3.8+ installed
 2. Install the required dependencies:
+
    ```bash
    pip install -r requirements.txt
    ```
@@ -20,6 +21,7 @@ A beautiful and modern desktop application built with PyQt6 and Material Design.
 ## Running the Application
 
 Simply run:
+
 ```bash
 python main.py
 ```
@@ -33,6 +35,7 @@ python main.py
 ## Development
 
 The application uses:
+
 - PyQt6 for the GUI framework
 - qt-material for Material Design styling
-- Custom animations for interactive elements 
+- Custom animations for interactive elements

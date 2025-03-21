@@ -14,7 +14,7 @@ from qt_material import apply_stylesheet
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Modern Python App")
+        self.setWindowTitle("OndasPesquisa")
         self.setMinimumSize(800, 600)
 
         # Create central widget and main layout
@@ -25,7 +25,7 @@ class MainWindow(QMainWindow):
         layout.setSpacing(20)
 
         # Welcome text with custom styling
-        welcome_label = QLabel("Welcome to Modern App")
+        welcome_label = QLabel("Bem-vindo ao OndasPesquisa")
         welcome_label.setStyleSheet(
             """
             QLabel {
@@ -38,7 +38,7 @@ class MainWindow(QMainWindow):
         layout.addWidget(welcome_label, alignment=Qt.AlignmentFlag.AlignCenter)
 
         # Create animated button
-        self.button = QPushButton("Click Me!")
+        self.button = QPushButton("Clique Aqui!")
         self.button.setFixedSize(200, 50)
         self.button.setStyleSheet(
             """
