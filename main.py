@@ -6,8 +6,12 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
     QPushButton,
     QLabel,
+    QLineEdit,
+    QFormLayout,
+    QHBoxLayout,
 )
 from PyQt6.QtCore import Qt, QPropertyAnimation, QEasingCurve
+from PyQt6.QtGui import QPixmap
 from qt_material import apply_stylesheet
 
 
@@ -24,23 +28,75 @@ class MainWindow(QMainWindow):
         layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.setSpacing(20)
 
-        # Welcome text with custom styling
-        welcome_label = QLabel("Bem-vindo ao OndasPesquisa")
-        welcome_label.setStyleSheet(
-            """
-            QLabel {
-                font-size: 32px;
-                font-weight: bold;
-                color: #2196F3;
-            }
-        """
+        # Add logo
+        logo_label = QLabel()
+        logo_pixmap = QPixmap("logo.png")
+        scaled_pixmap = logo_pixmap.scaled(
+            300,
+            300,
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation,
         )
-        layout.addWidget(welcome_label, alignment=Qt.AlignmentFlag.AlignCenter)
+        logo_label.setPixmap(scaled_pixmap)
+        layout.addWidget(logo_label, alignment=Qt.AlignmentFlag.AlignCenter)
 
-        # Create animated button
-        self.button = QPushButton("Clique Aqui!")
-        self.button.setFixedSize(200, 50)
-        self.button.setStyleSheet(
+        # Create container for the form
+        form_container = QWidget()
+        form_container_layout = QHBoxLayout(form_container)
+
+        # Form layout for input fields
+        form_layout = QFormLayout()
+        form_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        form_layout.setSpacing(15)
+        form_layout.setContentsMargins(20, 20, 20, 20)
+
+        # Input fields
+        self.ref_input = QLineEdit()
+        self.ref_input.setFixedWidth(300)
+        self.ref_input.setPlaceholderText("Digite a referência...")
+        self.ref_input.setStyleSheet(
+            """
+                QLineEdit {
+                    padding: 8px;
+                    border-radius: 5px;
+                    font-size: 14px;
+                    margin-left: 10px;
+                    color: white;
+                }
+            """
+        )
+
+        self.cor_input = QLineEdit()
+        self.cor_input.setFixedWidth(300)
+        self.cor_input.setPlaceholderText("Digite a cor...")
+        self.cor_input.setStyleSheet(
+            """
+                QLineEdit {
+                    padding: 8px;
+                    border-radius: 5px;
+                    font-size: 14px;
+                    margin-left: 10px;
+                    color: white;
+                }
+            """
+        )
+
+        # Add fields to form layout
+        form_layout.addRow(self.ref_input)
+        form_layout.addRow(self.cor_input)
+
+        # Center the form using container
+        form_container_layout.addStretch()
+        form_container_layout.addLayout(form_layout)
+        form_container_layout.addStretch()
+
+        # Add form container to main layout
+        layout.addWidget(form_container)
+
+        # Create search button with animation
+        self.search_button = QPushButton("Pesquisar")
+        self.search_button.setFixedSize(200, 50)
+        self.search_button.setStyleSheet(
             """
             QPushButton {
                 border-radius: 25px;
@@ -49,16 +105,19 @@ class MainWindow(QMainWindow):
             }
         """
         )
-        self.button.clicked.connect(self.animate_button)
-        layout.addWidget(self.button, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.search_button.clicked.connect(self.animate_button)
+        layout.addWidget(
+            self.search_button,
+            alignment=Qt.AlignmentFlag.AlignCenter
+        )
 
     def animate_button(self):
         # Create bounce animation
-        self.animation = QPropertyAnimation(self.button, b"geometry")
+        self.animation = QPropertyAnimation(self.search_button, b"geometry")
         self.animation.setDuration(200)
         self.animation.setEasingCurve(QEasingCurve.Type.OutBounce)
 
-        current_geometry = self.button.geometry()
+        current_geometry = self.search_button.geometry()
 
         # Animate up
         self.animation.setStartValue(current_geometry)
@@ -72,10 +131,10 @@ class MainWindow(QMainWindow):
         self.animation.start()
 
     def return_animation(self, original_geometry):
-        self.animation = QPropertyAnimation(self.button, b"geometry")
+        self.animation = QPropertyAnimation(self.search_button, b"geometry")
         self.animation.setDuration(200)
         self.animation.setEasingCurve(QEasingCurve.Type.OutBounce)
-        self.animation.setStartValue(self.button.geometry())
+        self.animation.setStartValue(self.search_button.geometry())
         self.animation.setEndValue(original_geometry)
         self.animation.start()
 
