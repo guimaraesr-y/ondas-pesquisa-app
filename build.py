@@ -23,7 +23,6 @@ def build_executable():
     """Build the executable using PyInstaller"""
     qt_material_path = get_qt_material_path()
 
-    # Build command without icon by default
     command = [
         "main.py",
         "--name=OndasPesquisa",
@@ -33,21 +32,7 @@ def build_executable():
         "--add-data=logo.png;.",
         "--clean",
         "--noconfirm",
-        # Add hidden imports to fix qt_material warning
-        "--hidden-import=PyQt6.QtCore",
-        "--hidden-import=PyQt6.QtGui",
-        "--hidden-import=PyQt6.QtWidgets",
-        "--hidden-import=qt_material",
-        # Add project modules
-        "--hidden-import=models.sheet",
-        "--hidden-import=services.api_service",
-        "--hidden-import=views.sheet_table",
-        "--hidden-import=views.results_window"
     ]
-
-    # Only add icon if it exists and is valid
-    if os.path.exists("app_icon.ico") and os.path.getsize("app_icon.ico") > 0:
-        command.append("--icon=app_icon.ico")
 
     PyInstaller.__main__.run(command)
 
