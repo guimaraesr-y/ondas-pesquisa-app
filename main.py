@@ -1,4 +1,5 @@
 import sys
+import os
 from PyQt6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -13,6 +14,17 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtCore import Qt, QPropertyAnimation, QEasingCurve
 from PyQt6.QtGui import QPixmap
 from qt_material import apply_stylesheet
+
+
+def get_resource_path(relative_path):
+    """Get the path to a resource, works for dev and for PyInstaller"""
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 
 class MainWindow(QMainWindow):
@@ -30,14 +42,25 @@ class MainWindow(QMainWindow):
 
         # Add logo
         logo_label = QLabel()
-        logo_pixmap = QPixmap("logo.png")
-        scaled_pixmap = logo_pixmap.scaled(
-            300,
-            300,
-            Qt.AspectRatioMode.KeepAspectRatio,
-            Qt.TransformationMode.SmoothTransformation,
-        )
-        logo_label.setPixmap(scaled_pixmap)
+        logo_path = get_resource_path("logo.png")
+        logo_pixmap = QPixmap(logo_path)
+        if not logo_pixmap.isNull():
+            scaled_pixmap = logo_pixmap.scaled(
+                300, 300,
+                Qt.AspectRatioMode.KeepAspectRatio,
+                Qt.TransformationMode.SmoothTransformation
+            )
+            logo_label.setPixmap(scaled_pixmap)
+        else:
+            # If logo fails to load, show text instead
+            logo_label.setText("OndasPesquisa")
+            logo_label.setStyleSheet("""
+                QLabel {
+                    font-size: 32px;
+                    font-weight: bold;
+                    color: #2196F3;
+                }
+            """)
         layout.addWidget(logo_label, alignment=Qt.AlignmentFlag.AlignCenter)
 
         # Create container for the form

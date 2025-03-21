@@ -30,6 +30,7 @@ def build_executable():
         "--onefile",
         "--windowed",
         f"--add-data={qt_material_path};qt_material",
+        "--add-data=logo.png;.",
         "--clean",
         "--noconfirm",
         # Add hidden imports to fix qt_material warning
